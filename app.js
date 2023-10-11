@@ -1,7 +1,7 @@
 // Imports and global variables - leave them as they are
 import { words, getLetterIndexes, getRandomWord } from './utils/utils.js';
 let currentWord = getRandomWord();
-let hangmanPart, points, lettersToGo, playing;
+let lanternPart, points, lettersToGo, playing;
 
 /**
  * ! START HERE
@@ -16,18 +16,13 @@ let hangmanPart, points, lettersToGo, playing;
  */
 
 /**
- * TODO | Select this input to get the player's name
- * TODO | input name="player-name"
- */
-
-/**
  * TODO | Select this span to control the points
  * TODO | <span class="points__num">26</span>
  */
 
 /**
- * TODO | Select this container to insert the hangman parts later on
- * TODO | <section class="hangman__container">
+ * TODO | Select this container to insert the lantern parts later on
+ * TODO | <section class="lantern__container">
  */
 
 /**
@@ -45,23 +40,22 @@ let hangmanPart, points, lettersToGo, playing;
 /**
  * * Doing something with the elements
  *
- * * Display "spaces" for the currentWord inside the wordContainer
+ * * Display letters and "spaces" for the currentWord inside the wordContainer
  * TODO | Create and show <div class="word__letter--container"><span class="word__letter"></span></div>
  * TODO | per letter in currentWord
  */
 
 function renderCurrentWord() {
   // loop over currentWord
-  // create the div and add the css classes
-  // "word__letter--container" on every,
-  // "word__letter--space" only on whitespaces
-  //
-  // create span, add css and insert into div
-  // insert the div into wordContainer
+  for (let i = 0; i < currentWord.length; i++) {
+    // create the div and add the css classes
+    // "word__letter--container" on every,
+    // "word__letter--space" only on whitespaces
+    //
+    // create span, add css and insert into div
+    // insert the div into wordContainer
+  }
 }
-/**
- * TODO | actually call the function 😊
- */
 
 /**
  * * Making the UI interactive
@@ -82,7 +76,7 @@ function handleKeyboardClick(e) {
   const indexes = getLetterIndexes(letter, currentWord);
   // add css class "strikeout" to the button
   // disable the button
-  if (indexes.length === 0) insertHangman();
+  if (indexes.length === 0) insertLantern();
   else insertLetter(indexes);
 }
 // ! OR
@@ -94,7 +88,7 @@ function handleLetterClick(e) {
   const indexes = getLetterIndexes(letter, currentWord);
   // add css class "strikeout" to the button
   // disable the button
-  if (indexes.length === 0) insertHangman();
+  if (indexes.length === 0) insertLantern();
   else insertLetter(indexes);
 }
 
@@ -111,19 +105,19 @@ function insertLetter(foundIndexes) {
 }
 
 /**
- * TODO | display the next part of the hangman (consider the variable hangmanPart)
+ * TODO | display the next part of the lantern (consider the variable lanternPart)
  */
 
-function insertHangman() {
-  // prepare the new DOM node as template literal and insert the current hangmanPart
+function insertLantern() {
+  // prepare the new DOM node as template literal and insert the current lanternPart
 
-  // insert the prepared markup into the hangmanContainer
+  // insert the prepared markup into the lanternContainer
 
   points--;
   // (later) send Event
 
-  hangmanPart++;
-  if (hangmanPart > 10) endGame('lost');
+  lanternPart++;
+  if (lanternPart > 6) endGame('lost');
 }
 
 /**
@@ -134,10 +128,10 @@ function endGame(status) {
   playing = false;
   // get the right <template> from the document depending on the status param
   // clone the template
-  // append the clone to the hangmanContainer
+  // append the clone to the lanternContainer
 
   if (status === 'won') {
-    hangmanContainer.querySelector('.points__num--won').textContent = points;
+    lanternContainer.querySelector('.points__num--won').textContent = points;
   }
 }
 
@@ -151,7 +145,6 @@ newWordForm.addEventListener('submit', (e) => {
   //
   // get the value from the input element (traversing the tree, querying or accessing the form elements)
   //
-  words.push(newWord);
   currentWord = newWord;
   start();
 });
@@ -162,17 +155,12 @@ newWordForm.addEventListener('submit', (e) => {
  */
 
 /**
- * TODO | Add an event listener on the "light" button, to toggle
- * TODO | the .light css class on the body element
- */
-
-/**
  * * re/starting the game
  */
 
 function start() {
   // clear wordContainer
-  // remove won/lost and hangmanParts
+  // remove won/lost and lanternParts
   // remove .strikeout css class and disabled property from every letter btn
 
   // render freshly
@@ -184,7 +172,7 @@ start();
 
 /**
  * ? optional - declaring and listening for custom Events
- * ? TODO  | declare a new Event "decrementpoints"
+ * ? TODO | declare a new Event "decrementpoints" at the top of this file
  * ? TODO | Listen for custom event and decrement points
  */
 
@@ -197,8 +185,8 @@ start();
  */
 
 function resetValues() {
-  hangmanPart = 0;
-  points = 11;
+  lanternPart = 0;
+  points = 7;
   lettersToGo = currentWord.replaceAll(' ', '').length;
   playing = true;
   pointsEl.textContent = points;
